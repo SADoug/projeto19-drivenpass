@@ -16,7 +16,7 @@ export async function postUser(req: Request, res: Response) {
         email,
         password
     }
-    const repo = await UserInsertService(CreateUser);
+    const repo = await AuthService.UserInsertService(CreateUser);
     res.send(repo).status(201)
 
 }
@@ -27,6 +27,7 @@ export async function postSignin(req: Request, res: Response) {
     const { email } = req.body
     const secretKey = process.env.JWT_SECRET_KEY
     const token: JwtPayload | String = jwt.sign(user[0].id, secretKey)
+    console.log("O seu token é",token)
     const LoginSession = {
         email, id: user[0].id, token
     }

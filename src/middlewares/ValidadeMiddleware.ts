@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { signupSchema, signinSchema } from "../schemas/AuthSchema";
+import { signupSchema, signinSchema, credentialSchema } from "../schemas/AuthSchema";
 import authRepository from "../repositories/AuthRepository";
 
 export function validatesignUpSchemaMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -20,5 +20,15 @@ export async function validatesignInSchemaMiddleware(req: Request, res: Response
   const users = await authRepository.getUserByEmail(email)
   if (!users[0]) { throw { type: "conflict", message: "email does not exist" } }
   res.locals.user = users
+  return next();
+}
+
+export async function ValidadeCredential(req: Request, res: Response, next: NextFunction) {
+  console.log(req.body)
+  const validation = credentialSchema.validate(req.body);
+  if (validation.error) {
+    return res.send(validation.error).status(422);
+  }
+ 
   return next();
 }

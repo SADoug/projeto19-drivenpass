@@ -6,6 +6,7 @@ import { sessions } from "@prisma/client";
 
 export type CreateUser = Omit<users, "id">;
 export type CreateSession = Omit<sessions, "id">;
+
 async function UserInsertService(CreateUser: CreateUser) {
     const hashedPassword = bcrypt.hashSync(CreateUser.password, 10)
     const result = await authRepository.getUserByEmail(CreateUser.email)
