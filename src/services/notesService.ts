@@ -1,60 +1,44 @@
-import credentialsRepository from "../repositories/CredentialsRepository"
-import { credentials } from "@prisma/client";
+import notesRepository from "../repositories/notesRepository"
+import { notes } from "@prisma/client";
 import dotenv from 'dotenv';
 dotenv.config();
 
-export type CreateCredential = Omit<credentials, "id">;
+export type CreateNotes = Omit<notes, "id">;
 
-async function CredentialInsert(createCredential: CreateCredential) {
+async function notesInsert(createNote: CreateNotes) {
 
-    const titlecheck = await credentialsRepository.getUserByIdandTitle(createCredential.title, createCredential.id)
+    const titlecheck = await notesRepository.getUserByIdandTitle(createNote.title, createNote.id)
     if (titlecheck[0]) { throw { type: "conflict", message: "title already exists for this user" } }
 
-    const Cryptr = require('cryptr');
-    const cryptr = new Cryptr(process.env.CRYPT_KEY);
-    const hashedPassword = cryptr.encrypt(createCredential.password);
-    console.log(hashedPassword)
-    await credentialsRepository.insertCredentials(
-        createCredential.url,
-        createCredential.username,
-        createCredential.title,
-        hashedPassword,
-        createCredential.userId
+    await notesRepository.insertNotes(
+        createNote.description,
+        createNote.title,
+        createNote.userId
     )
 }
 
-async function CredentialGetService(id: number) {
+async function notesGetService(id: number) {
     console.log(id)
-    const Cryptr = require('cryptr');
-    const cryptr = new Cryptr(process.env.CRYPT_KEY);
-    let result = await credentialsRepository.CredentialsGet(id)
-    for (let i = 0; i < result.length; i++) {
-        const element = result[i];
-        const descrypPassword = cryptr.decrypt(element.password);
-        console.log("#######", element.password, descrypPassword)
-        result[i].password = descrypPassword
-        console.log("#######", result[i])
-
-    }
+    let result = await notesRepository.NotesGet(id)
     console.log(result)
     return result
 }
 
-async function CredentialGeByIdService(id: number, credentialId: number) {
+async function notesGeByIdService(id: number, notesId: number) {
     console.log(id)
-    return await credentialsRepository.CredentialsGetById(id, credentialId)
+    return await notesRepository.NotesGetById(id, notesId)
 }
 
-async function CredentialDeleteService(credentialId: number) {
+async function notesDeleteService(notesId: number) {
 
-    return await credentialsRepository.CredentialsDelete(credentialId)
+    return await notesRepository.NotesDelete(notesId)
 }
 
-const CredentialService = {
-    CredentialInsert,
-    CredentialGetService,
-    CredentialGeByIdService,
-    CredentialDeleteService
+const notesService = {
+    notesInsert,
+    notesGetService,
+    notesGeByIdService,
+    notesDeleteService
 }
 
-export default CredentialService
+export default notesService

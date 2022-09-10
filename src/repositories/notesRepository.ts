@@ -1,19 +1,17 @@
 import client from "../config/database"
 
-async function insertCredentials(url: string, username: string, title: string, hashedPassword: string, userId: number) {
-    return client.credentials.create({
+async function insertNotes(description: string, title: string, userId: number) {
+    return client.notes.create({
         data: {
-            url,
-            username,
             title,
-            password: hashedPassword,
+            description,
             user: { connect: { id: userId } }
         }
     });
 }
 
 async function getUserByIdandTitle(title: string, id: number) {
-    return client.credentials.findMany({
+    return client.notes.findMany({
         where: {
             title: title,
             user_id: id
@@ -21,37 +19,37 @@ async function getUserByIdandTitle(title: string, id: number) {
     });
 }
 
-async function CredentialsGet(id: number) {
-    return client.credentials.findMany({
+async function NotesGet(id: number) {
+    return client.notes.findMany({
         where: {
             user_id: id
         }
     })
 }
 
-async function CredentialsGetById(id: number, credentialId: number) {
-    return client.credentials.findMany({
+async function NotesGetById(id: number, notesId: number) {
+    return client.notes.findMany({
         where: {
             user_id: id,
-            id: credentialId
+            id: notesId
         }
     })
 }
 
-async function CredentialsDelete(credentialId: number) {
-    return client.credentials.delete({
+async function NotesDelete(notesId: number) {
+    return client.notes.delete({
         where: {
-            id: credentialId
+            id: notesId
         }
     })
 }
 
 const credentialsRepository = {
     getUserByIdandTitle,
-    insertCredentials,
-    CredentialsGet,
-    CredentialsGetById,
-    CredentialsDelete
+    insertNotes,
+    NotesGet,
+    NotesGetById,
+    NotesDelete
 }
 
 export default credentialsRepository

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { signupSchema, signinSchema, credentialSchema } from "../schemas/AuthSchema";
+import { signupSchema, signinSchema, credentialSchema, notesSchema } from "../schemas/AuthSchema";
 import authRepository from "../repositories/AuthRepository";
 
 export function validatesignUpSchemaMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -29,6 +29,14 @@ export async function ValidadeCredential(req: Request, res: Response, next: Next
   if (validation.error) {
     return res.send(validation.error).status(422);
   }
- 
+  return next();
+}
+
+export async function ValidadeNotes(req: Request, res: Response, next: NextFunction) {
+  console.log(req.body)
+  const validation = notesSchema.validate(req.body);
+  if (validation.error) {
+    return res.send(validation.error).status(422);
+  }
   return next();
 }

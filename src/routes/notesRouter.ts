@@ -1,28 +1,28 @@
 import { Router } from "express"
-import { ValidadeCredential } from "../middlewares/ValidadeMiddleware"
-import { postCredential, getCredentials, getCredentialsById, CredentialsDelete } from "../controllers/credentialsController"
+import { ValidadeNotes } from "../middlewares/ValidadeMiddleware" 
+import { postNotes, getNotes, getNotesById, NotesDelete } from "../controllers/notesController"
 import { tokenValidation } from "../middlewares/tokenValidation"
 
 const notesRouter = Router()
 notesRouter.post(
-    "/credentials",
-    ValidadeCredential,
+    "/notes",
+    ValidadeNotes,
     tokenValidation,
-    postCredential,
+    postNotes,
 )
 notesRouter.get(
-    "/credentials",
+    "/notes",
     tokenValidation,
-    getCredentials,
+    getNotes,
 )
 notesRouter.get(
-    "/credentials/:id",
+    "/notes/:id",
     tokenValidation,
-    getCredentialsById,
+    getNotesById,
 )
 notesRouter.delete(
-    "/credentials/:id",
+    "/notes/:id",
     tokenValidation,
-    CredentialsDelete,
+    NotesDelete,
 )
 export default notesRouter

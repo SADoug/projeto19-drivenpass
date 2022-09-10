@@ -11,13 +11,14 @@ datasource db {
 }
 
 model users {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  password    String       @unique
-  username    String       @unique
-  CreatedAt   DateTime?    @default(now())
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  password    String        @unique
+  username    String        @unique
+  CreatedAt   DateTime?     @default(now())
   sessions    sessions?
   credentials credentials[]
+  notes       notes[]
 }
 
 model sessions {
@@ -35,4 +36,12 @@ model credentials {
   url      String
   username String
   password String
+}
+
+model notes {
+  id          Int    @id @default(autoincrement())
+  user        users  @relation(fields: [user_id], references: [id])
+  user_id     Int
+  title       String @unique
+  description String
 }

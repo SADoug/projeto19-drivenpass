@@ -18,3 +18,7 @@ export const credentialSchema = Joi.object({
   password: Joi.string().required().min(10),
   title: Joi.string().required().min(1)
 })
+export const notesSchema = Joi.object({
+  title: Joi.string().required().max(50),
+  description: Joi.string().required().max(1000),
+})
