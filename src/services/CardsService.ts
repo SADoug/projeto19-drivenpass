@@ -7,7 +7,7 @@ export type CreateCard = Omit<cards, "id">;
 
 async function CardsInsert(createCard: CreateCard) {
 
-    const titlecheck = await cardsRepository.getUserByIdandTitle(createCard.name, createCard.userId)
+    const titlecheck = await cardsRepository.getUserByIdandTitle(createCard.name, createCard.user_id)
     if (titlecheck[0]) { throw { type: "conflict", message: "title already exists for this user" } }
 
     const Cryptr = require('cryptr');

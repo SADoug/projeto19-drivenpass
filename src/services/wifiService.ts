@@ -7,7 +7,7 @@ export type CreateWifi = Omit<wifi, "id">;
 
 async function WifiInsert(createWifi: CreateWifi) {
 
-    const titlecheck = await wifiRepository.getUserByIdandTitle(createWifi.title, createWifi.userId)
+    const titlecheck = await wifiRepository.getUserByIdandTitle(createWifi.title, createWifi.user_id)
     if (titlecheck[0]) { throw { type: "not_found", message: "title already exists for this wifi" } }
 
     const Cryptr = require('cryptr');
@@ -17,7 +17,7 @@ async function WifiInsert(createWifi: CreateWifi) {
         createWifi.name,
         createWifi.title,
         hashedPassword,
-        createWifi.userId
+        createWifi.user_id
     )
 }
 

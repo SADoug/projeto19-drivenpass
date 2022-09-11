@@ -37,10 +37,10 @@ export async function getNotesById(req: Request, res: Response) {
     res.send(repo).status(201)
 }
 export async function NotesDelete(req: Request, res: Response) {
-    const id = parseInt(res.locals.userId)
+    const user_id = parseInt(res.locals.userId)
     const notesId = parseInt(req.params.id)
 
-    console.log("Esse é o seu ID", id)
-    const repo = await notesService.notesDeleteService(notesId);
+    console.log("Esse é o seu ID", user_id)
+    const repo = await notesService.notesDeleteService(user_id, notesId);
     res.send(repo).status(201)
 }
