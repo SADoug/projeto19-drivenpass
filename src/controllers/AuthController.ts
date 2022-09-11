@@ -1,9 +1,8 @@
-import jwt, { JwtPayload } from "jsonwebtoken"
+import jwt, { JwtPayload, Secret } from "jsonwebtoken"
 import { Request, Response } from "express";
 import dotenv from "dotenv"
 dotenv.config()
 import AuthService from "../services/AuthService"
-import authRepository from "../repositories/AuthRepository";
 import { users } from "@prisma/client"
 import { sessions } from "@prisma/client";
 
@@ -20,13 +19,14 @@ interface LoginSession {
 
 export async function postUser(req: Request, res: Response) {
     const { username, email, password } = req.body
-
+    let createdAt
     const CreateUser: CreateUser = {
         username,
         email,
-        password
+        password,
+        createdAt
     }
-    const repo: CreateUser  = await AuthService.UserInsertService(CreateUser);
+    const repo = await AuthService.UserInsertService(CreateUser);
     res.send(repo).status(201)
 
 }
@@ -36,7 +36,7 @@ export async function postSignin(req: Request, res: Response) {
     console.log("users do local storage", user[0].id)
     const { email } = req.body
     const secretKey = process.env.JWT_SECRET_KEY
-    const token: JwtPayload | string = jwt.sign(user[0].id, secretKey)
+    const token: JwtPayload | Secret = jwt.sign(user[0].id, secretKey)
     console.log("O seu token é",token)
     const LoginSession: LoginSession = {
         email, id: user[0].id, token
