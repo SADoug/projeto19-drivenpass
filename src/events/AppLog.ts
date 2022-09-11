@@ -1,14 +1,5 @@
 import chalk from 'chalk';
-import ITypes from './../interfaces/index';
 
-const types: ITypes = {
-  Middleware: 'magenta',
-  Controller: 'green',
-  Repository: 'blue',
-  Server: 'yellow',
-  Service: 'cyan',
-  Error: 'red',
-};
 const AppLog = (
   type:
     | 'Middleware'
@@ -19,8 +10,7 @@ const AppLog = (
     | 'Error',
   text: string,
 ) => {
-  console.log(
-    type, text);
+  console.log(chalk.blue(type), chalk.yellow(text));
 };
 
 export default AppLog;
