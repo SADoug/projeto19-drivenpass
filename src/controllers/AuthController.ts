@@ -15,7 +15,7 @@ interface LoginSession {
     email: string,
     id: number,
     token: string
-  }
+}
 
 export async function postUser(req: Request, res: Response) {
     const CreateUser = req.body
@@ -30,7 +30,7 @@ export async function postSignin(req: Request, res: Response) {
     const { email } = req.body
     const secretKey = process.env.JWT_SECRET_KEY || "secret";
     const token: JwtPayload | Secret = jwt.sign(user[0].id, secretKey)
-    console.log("O seu token é",token)
+    console.log("O seu token é", token)
     const LoginSession: LoginSession = {
         email, id: user[0].id, token
     }

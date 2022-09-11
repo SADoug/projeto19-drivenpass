@@ -1,13 +1,13 @@
 import client from "../config/database"
 
-async function insertCredentials(url: string, username: string, title: string, hashedPassword: string, userId: number) {
+async function insertCredentials(url: string, username: string, title: string, hashedPassword: string, user_id: number) {
     return client.credentials.create({
         data: {
             url,
             username,
             title,
             password: hashedPassword,
-            user: { connect: { id: userId } }
+            user: { connect: { id: user_id } }
         }
     });
 }

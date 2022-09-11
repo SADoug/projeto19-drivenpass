@@ -1,12 +1,12 @@
 import client from "../config/database"
 
-async function insertWifi(name: string, title: string, hashedPassword: string, userId: number) {
+async function insertWifi(name: string, title: string, hashedPassword: string, user_id: number) {
     return client.wifi.create({
         data: {
             name,
             title,
             password: hashedPassword,
-            user: { connect: { id: userId } }
+            user: { connect: { id: user_id } }
         }
     });
 }

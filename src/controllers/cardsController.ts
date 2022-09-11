@@ -19,7 +19,7 @@ export async function postCard(req: Request, res: Response) {
 
 }
 
-export async function getCards(req: Request, res: Response) {
+export async function getCards(res: Response) {
     const id = parseInt(res.locals.userId)
     const repo = await cardsService.CardsGetService(id);
     res.send(repo).status(201)

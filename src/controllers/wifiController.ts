@@ -2,23 +2,25 @@ import { Request, Response } from "express";
 import dotenv from "dotenv"
 dotenv.config()
 import wifiService from "../services/wifiService"
+import { wifi } from "@prisma/client";
+export type CreateWifi = Omit<wifi, "id">;
 
 
 export async function postWifi(req: Request, res: Response) {
     const { name, password, title } = req.body
     const id = res.locals.userId
-    const createWifi = {
+    const createWifi: CreateWifi = {
         name,
         password,
         title,
-        userId: parseInt(id)
+        user_id: parseInt(id)
     }
     const repo = await wifiService.WifiInsert(createWifi);
     res.send(repo).status(201)
 
 }
 
-export async function getWifi(req: Request, res: Response) {
+export async function getWifi(res: Response) {
     const id = parseInt(res.locals.userId)
 
     const repo = await wifiService.WifiGetService(id);

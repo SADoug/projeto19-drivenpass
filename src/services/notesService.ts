@@ -30,7 +30,7 @@ async function notesGeByIdService(id: number, notesId: number) {
 }
 
 
-async function notesDeleteService(notesId: number, user_id: number) {
+async function notesDeleteService(notesId: number) {
     let result = await notesRepository.NotesGetById(user_id, notesId)
     if (!result[0]) { throw { type: "not_found", message: "this note does not have connection with this user or does not exist" } }
     return await notesRepository.NotesDelete(notesId)

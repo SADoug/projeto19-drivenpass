@@ -2,25 +2,25 @@ import { Request, Response } from "express";
 import dotenv from "dotenv"
 dotenv.config()
 import notesService from "../services/notesService"
-
-
+import { notes } from "@prisma/client";
+export type CreateNotes = Omit<notes, "id">;
 
 
 export async function postNotes(req: Request, res: Response) {
     const { description, title } = req.body
     const id = res.locals.userId
     console.log("Esse é o seu ID", id)
-    const createNote = {
+    const createNote: CreateNotes = {
         description,
         title,
-        userId: parseInt(id)
+        user_id: parseInt(id)
     }
     const repo = await notesService.notesInsert(createNote);
     res.send(repo).status(201)
 
 }
 
-export async function getNotes(req: Request, res: Response) {
+export async function getNotes(res: Response) {
     const id = parseInt(res.locals.userId)
     console.log("Esse é o seu ID", id)
 
