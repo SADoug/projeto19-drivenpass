@@ -18,16 +18,9 @@ interface LoginSession {
   }
 
 export async function postUser(req: Request, res: Response) {
-    const { username, email, password } = req.body
-    let CreatedAt
-    const CreateUser: CreateUser = {
-        username,
-        email,
-        password,
-        CreatedAt
-    }
-    const repo = await AuthService.UserInsertService(CreateUser);
-    res.send(repo).status(201)
+    const CreateUser = req.body
+    await AuthService.UserInsertService(CreateUser);
+    res.sendStatus(201)
 
 }
 
@@ -35,7 +28,7 @@ export async function postSignin(req: Request, res: Response) {
     const { user } = res.locals
     console.log("users do local storage", user[0].id)
     const { email } = req.body
-    const secretKey = process.env.JWT_SECRET_KEY
+    const secretKey = process.env.JWT_SECRET_KEY || "secret";
     const token: JwtPayload | Secret = jwt.sign(user[0].id, secretKey)
     console.log("O seu token é",token)
     const LoginSession: LoginSession = {
