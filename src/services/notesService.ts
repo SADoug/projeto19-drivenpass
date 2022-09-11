@@ -7,12 +7,12 @@ export type CreateNotes = Omit<notes, "id">;
 
 async function notesInsert(createNote: CreateNotes) {
 
-    const titlecheck = await notesRepository.getUserByIdandTitle(createNote.title, createNote.userId)
+    const titlecheck = await notesRepository.getUserByIdandTitle(createNote.title, createNote.user_id)
     if (titlecheck[0]) { throw { type: "conflict", message: "title already exists for this user" } }
     await notesRepository.insertNotes(
         createNote.description,
         createNote.title,
-        createNote.userId
+        createNote.user_id
     )
 }
 
@@ -30,7 +30,7 @@ async function notesGeByIdService(id: number, notesId: number) {
 }
 
 
-async function notesDeleteService(notesId: number) {
+async function notesDeleteService(user_id: number, notesId: number) {
     let result = await notesRepository.NotesGetById(user_id, notesId)
     if (!result[0]) { throw { type: "not_found", message: "this note does not have connection with this user or does not exist" } }
     return await notesRepository.NotesDelete(notesId)

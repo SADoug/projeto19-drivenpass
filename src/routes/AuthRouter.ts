@@ -1,7 +1,6 @@
 import { Router } from "express"
 
 import {
-    deleteSession,
     postSignin,
     postUser,
 } from "../controllers/AuthController"
