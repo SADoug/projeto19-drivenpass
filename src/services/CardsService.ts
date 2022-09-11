@@ -13,11 +13,12 @@ async function CardsInsert(createCard: CreateCard) {
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
     const password = cryptr.encrypt(createCard.password);
+    const CVC =  cryptr.encrypt(createCard.CVC);
     console.log(password)
     await cardsRepository.insertCards(
         createCard.name,
         createCard.number,
-        createCard.CVC,
+        CVC,
         createCard.expiration_date,
         password,
         createCard.isVirtual,
@@ -35,7 +36,10 @@ async function CardsGetService(id: number) {
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
         const descrypPassword = cryptr.decrypt(element.password);
+        const descrypCVC = cryptr.decrypt(element.CVC);
         result[i].password = descrypPassword
+        result[i].CVC = descrypCVC
+
     }
     return result
 }
@@ -48,7 +52,9 @@ async function CardsGeByIdService(id: number, cardId: number) {
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
         const descrypPassword = cryptr.decrypt(element.password);
+        const descrypCVC = cryptr.decrypt(element.CVC);
         result[i].password = descrypPassword
+        result[i].CVC = descrypCVC
     }
     return result
 }
