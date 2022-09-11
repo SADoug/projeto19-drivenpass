@@ -23,7 +23,7 @@ async function CardsInsert(createCard: CreateCard) {
         password,
         createCard.isVirtual,
         createCard.type,
-        createCard.userId,
+        createCard.user_id,
 
     )
 }

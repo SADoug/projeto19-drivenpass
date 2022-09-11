@@ -1,7 +1,7 @@
 import client from "../config/database"
 
 async function insertCards(name: string, number: string, CVC: string, expiration_date: string,
-    password: string, isVirtual: boolean, type: string, userId: number,) {
+    password: string, isVirtual: boolean, type: string, user_id: number,) {
     return client.cards.create({
         data: {
             name,
@@ -11,7 +11,7 @@ async function insertCards(name: string, number: string, CVC: string, expiration
             password,
             isVirtual,
             type,
-            user: { connect: { id: userId } }
+            user: { connect: { id: user_id } }
         }
     });
 }

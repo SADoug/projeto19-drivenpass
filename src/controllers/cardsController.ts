@@ -2,13 +2,17 @@ import { Request, Response } from "express";
 import dotenv from "dotenv"
 dotenv.config()
 import cardsService from "../services/CardsService"
+import { cards } from "@prisma/client";
+export type CreateCard = Omit<cards, "id">;
+
+
 
 export async function postCard(req: Request, res: Response) {
     const { name, number, CVC, expiration_date, password, isVirtual, type } = req.body
     const id = res.locals.userId
-    const createCard = {
+    const createCard: CreateCard = {
         name, number, CVC, expiration_date, password, isVirtual, type,
-        userId: parseInt(id)
+        user_id: parseInt(id)
     }
     const repo = await cardsService.CardsInsert(createCard);
     res.send(repo).status(201)
