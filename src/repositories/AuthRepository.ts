@@ -29,30 +29,12 @@ async function insertSession(userId: number, token: string) {
   });
 }
 
-async function getSessionByToken(token: string) {
-  return db.query(
-    `SELECT users.id, sessions.token
-    FROM sessions
-    JOIN users ON sessions.user_id = users.id
-    WHERE sessions.token = $1`,
-    [token],
-  )
-}
 
-async function deleteSessionByToken(token: string) {
-  return db.query(
-    `DELETE FROM sessions
-    WHERE token = $1`,
-    [token],
-  )
-}
 
 const authRepository = {
   insertUserDb,
   getUserByEmail,
   insertSession,
-  getSessionByToken,
-  deleteSessionByToken,
 }
 
 export default authRepository
