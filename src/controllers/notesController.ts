@@ -20,7 +20,7 @@ export async function postNotes(req: Request, res: Response) {
 
 }
 
-export async function getNotes(res: Response) {
+export async function getNotes(req: Request, res: Response) {
     const id = parseInt(res.locals.userId)
     console.log("Esse é o seu ID", id)
 

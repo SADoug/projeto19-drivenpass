@@ -13,7 +13,7 @@ async function CredentialInsert(createCredential: CreateCredential) {
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
     const hashedPassword = cryptr.encrypt(createCredential.password);
-    await credentialsRepository.insertCredentials(
+   return await credentialsRepository.insertCredentials(
         createCredential.url,
         createCredential.username,
         createCredential.title,

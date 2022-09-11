@@ -9,15 +9,37 @@ function ExceptionHandler(
   res: Response,
   _next: NextFunction,
 ) {
-  const { type, statusCode, message, detail } = error;
+  const { type, message } = error;
 
   AppLog(type, message);
-  return error instanceof AppError
-    ? res.status(statusCode).send({ message, detail })
-    : res.status(500).send({
-        message: `Internal server error`,
-        detail: error,
-      });
+
+  if (type === "unauthorized") {
+    return res.status(401).send({
+      message: message,
+    });
+  }
+  if (type === "conflict") {
+    return res.status(409).send({
+      message: message,
+    });
+  }
+  if (type === "not_found") {
+    return res.status(404).send({
+      message: message,
+
+    });
+  }
+  if (type === "bad_request") {
+    return res.status(400).send({
+      message: message,
+
+    });
+  }
+
+  return res.status(500).send({
+    message: message,
+    detail: error,
+  });
 }
 
 export { AppError };

@@ -20,7 +20,7 @@ export async function postWifi(req: Request, res: Response) {
 
 }
 
-export async function getWifi(res: Response) {
+export async function getWifi(req: Request, res: Response) {
     const id = parseInt(res.locals.userId)
 
     const repo = await wifiService.WifiGetService(id);
