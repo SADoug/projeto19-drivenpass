@@ -9,9 +9,9 @@ function ExceptionHandler(
   res: Response,
   _next: NextFunction,
 ) {
-  const { log, statusCode, message, detail } = error;
+  const { type, statusCode, message, detail } = error;
 
-  AppLog('Error', log);
+  AppLog(type, message);
   return error instanceof AppError
     ? res.status(statusCode).send({ message, detail })
     : res.status(500).send({

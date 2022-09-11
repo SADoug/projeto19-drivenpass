@@ -23,7 +23,7 @@ export async function postCredential(req: Request, res: Response) {
 
 }
 
-export async function getCredentials(res: Response) {
+export async function getCredentials(req: Request, res: Response) {
     const id = parseInt(res.locals.userId)
     const repo = await CredentialService.CredentialGetService(id);
     res.send(repo).status(201)

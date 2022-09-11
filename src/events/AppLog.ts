@@ -20,10 +20,7 @@ const AppLog = (
   text: string,
 ) => {
   console.log(
-    chalk.bold[
-      types[type] as 'green' | 'magenta' | 'blue' | 'yellow' | 'cyan' | 'red'
-    ](`[${type}] ${text}`),
-  );
+    type, text);
 };
 
 export default AppLog;

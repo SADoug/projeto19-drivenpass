@@ -21,7 +21,7 @@ app.use(credentialsRouter)
 app.use(notesRouter)
 app.use(cardsRouter)
 app.use(wifiRouter)
-app.use(handleErrorsMiddleware);
 app.use(ExceptionHandler);
+
 
 export default app;

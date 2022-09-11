@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-import { errorTypeToStatusCode, isAppError } from "../utils/errorUtils.js";
+import { errorTypeToStatusCode, isAppError } from "./../utils/errorUtils";
 
 export default function handleErrorsMiddleware(err: any, res: Response) {
   console.log("Ooops! An error occured!", err);
