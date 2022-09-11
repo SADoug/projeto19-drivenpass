@@ -9,10 +9,14 @@ import { sessions } from "@prisma/client";
 
 
 
-export type CreateUser = Omit<users, "id", "CreatedAt">;
+export type CreateUser = Omit<users, "id">;
 export type CreateSession = Omit<sessions, "id">;
 
-
+interface LoginSession {
+    email: string,
+    id: number,
+    token: string
+  }
 
 export async function postUser(req: Request, res: Response) {
     const { username, email, password } = req.body
@@ -30,11 +34,11 @@ export async function postUser(req: Request, res: Response) {
 export async function postSignin(req: Request, res: Response) {
     const { user } = res.locals
     console.log("users do local storage", user[0].id)
-    const { email }: string = req.body
+    const { email } = req.body
     const secretKey = process.env.JWT_SECRET_KEY
-    const token: JwtPayload | String = jwt.sign(user[0].id, secretKey)
+    const token: JwtPayload | string = jwt.sign(user[0].id, secretKey)
     console.log("O seu token é",token)
-    const LoginSession: CreateSession = {
+    const LoginSession: LoginSession = {
         email, id: user[0].id, token
     }
     await AuthService.LoginSession(LoginSession)
@@ -42,10 +46,3 @@ export async function postSignin(req: Request, res: Response) {
 
 }
 
-export async function deleteSession(req: Request, res: Response) {
-
-    const { token } = res.locals
-    await authRepository.deleteSessionByToken(token)
-    res.sendStatus(200)
-
-}

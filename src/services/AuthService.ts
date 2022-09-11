@@ -2,7 +2,11 @@ import bcrypt from "bcrypt"
 import authRepository from "../repositories/AuthRepository"
 import { users } from "@prisma/client"
 import { sessions } from "@prisma/client";
-
+interface LoginSession {
+    email: string,
+    id: number,
+    token: string
+  }
 
 export type CreateUser = Omit<users, "id">;
 export type CreateSession = Omit<sessions, "id">;
@@ -18,7 +22,7 @@ async function UserInsertService(CreateUser: CreateUser) {
     )
 }
 
-async function LoginSession(LoginSession: CreateSession) {
+async function LoginSession(LoginSession: LoginSession) {
     const result = await authRepository.getUserByEmail(LoginSession.email)
     console.log(result)
     if (!result[0]) { throw { type: "unauthorized", message: "email does not exist" } }
