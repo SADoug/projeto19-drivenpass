@@ -19,12 +19,12 @@ interface LoginSession {
 
 export async function postUser(req: Request, res: Response) {
     const { username, email, password } = req.body
-    let createdAt
+    let CreatedAt
     const CreateUser: CreateUser = {
         username,
         email,
         password,
-        createdAt
+        CreatedAt
     }
     const repo = await AuthService.UserInsertService(CreateUser);
     res.send(repo).status(201)
