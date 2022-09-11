@@ -33,10 +33,10 @@ async function CardsGet(id: number) {
     })
 }
 
-async function CardsGetById(id: number, cardId: number) {
+async function CardsGetById(user_id: number, cardId: number) {
     return client.cards.findMany({
         where: {
-            user_id: id,
+            user_id,
             id: cardId
         }
     })

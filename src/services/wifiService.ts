@@ -7,14 +7,12 @@ export type CreateWifi = Omit<wifi, "id">;
 
 async function WifiInsert(createWifi: CreateWifi) {
 
-    const titlecheck = await wifiRepository.getUserByIdandTitle(createWifi.title, createWifi.id)
-    console.log(titlecheck)
-    if (titlecheck[0]) { throw { type: "conflict", message: "title already exists for this user" } }
+    const titlecheck = await wifiRepository.getUserByIdandTitle(createWifi.title, createWifi.userId)
+    if (titlecheck[0]) { throw { type: "not_found", message: "title already exists for this wifi" } }
 
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
     const hashedPassword = cryptr.encrypt(createWifi.password);
-    console.log(hashedPassword)
     await wifiRepository.insertWifi(
         createWifi.name,
         createWifi.title,
@@ -24,19 +22,16 @@ async function WifiInsert(createWifi: CreateWifi) {
 }
 
 async function WifiGetService(id: number) {
-    console.log(id)
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
     let result = await wifiRepository.WifiGet(id)
+    if (!result[0]) { throw { type: "not_found", message: "this wifi does not have connection with this user or does not exist" } }
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
         const descrypPassword = cryptr.decrypt(element.password);
-        console.log("#######", element.password, descrypPassword)
         result[i].password = descrypPassword
-        console.log("#######", result[i])
 
     }
-    console.log(result)
     return result
 }
 
@@ -44,28 +39,28 @@ async function WifiGeByIdService(id: number, wifiId: number) {
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
     let result = await wifiRepository.WifiGetById(id, wifiId)
+    if (!result[0]) { throw { type: "not_found", message: "this wifi does not have connection with this user or does not exist" } }
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
         const descrypPassword = cryptr.decrypt(element.password);
-        console.log("#######", element.password, descrypPassword)
         result[i].password = descrypPassword
-        console.log("#######", result[i])
 
     }
     console.log(result)
     return result
 }
 
-async function WifiDeleteService(wifiId: number) {
-
+async function WifiDeleteService(wifiId: number, user_id: number) {
+    let result = await wifiRepository.WifiGetById(user_id, wifiId)
+    if (!result[0]) { throw { type: "not_found", message: "this wifi does not have connection with this user or does not exist" } }
     return await wifiRepository.WifiDelete(wifiId)
 }
 
-const CredentialService = {
+const wifiService = {
     WifiInsert,
     WifiGetService,
     WifiGeByIdService,
     WifiDeleteService
 }
 
-export default CredentialService
+export default wifiService

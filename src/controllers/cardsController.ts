@@ -28,8 +28,8 @@ export async function getCardsById(req: Request, res: Response) {
     res.send(repo).status(201)
 }
 export async function CardsDelete(req: Request, res: Response) {
-    const id = parseInt(res.locals.userId)
+    const user_id = parseInt(res.locals.userId)
     const cardId = parseInt(req.params.id)
-    const repo = await cardsService.CardsDeleteService(cardId);
+    const repo = await cardsService.CardsDeleteService(user_id, cardId);
     res.send(repo).status(201)
 }

@@ -28,10 +28,10 @@ async function WifiGet(id: number) {
     })
 }
 
-async function  WifiGetById(id: number, wifiId: number) {
+async function  WifiGetById(user_id: number, wifiId: number) {
     return client.wifi.findMany({
         where: {
-            user_id: id,
+            user_id,
             id: wifiId
         }
     })
@@ -45,7 +45,7 @@ async function  WifiDelete(wifiId: number) {
     })
 }
 
-const credentialsRepository = {
+const wifiRepository = {
     getUserByIdandTitle,
     insertWifi,
     WifiGet,
@@ -53,4 +53,4 @@ const credentialsRepository = {
     WifiDelete
 }
 
-export default credentialsRepository
+export default wifiRepository

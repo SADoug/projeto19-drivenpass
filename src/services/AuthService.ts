@@ -21,7 +21,7 @@ async function UserInsertService(CreateUser: CreateUser) {
 async function LoginSession(LoginSession: CreateSession) {
     const result = await authRepository.getUserByEmail(LoginSession.email)
     console.log(result)
-    if (!result[0]) { throw { type: "conflict", message: "email does not exist" } }
+    if (!result[0]) { throw { type: "unauthorized", message: "email does not exist" } }
     await authRepository.insertSession(
         LoginSession.id,
         LoginSession.token,

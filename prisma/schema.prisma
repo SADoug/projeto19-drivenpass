@@ -34,7 +34,7 @@ model credentials {
   id       Int    @id @default(autoincrement())
   user     users  @relation(fields: [user_id], references: [id])
   user_id  Int
-  title    String @unique
+  title    String 
   url      String
   username String
   password String
@@ -44,7 +44,7 @@ model notes {
   id          Int    @id @default(autoincrement())
   user        users  @relation(fields: [user_id], references: [id])
   user_id     Int
-  title       String @unique
+  title       String 
   description String
 }
 
@@ -52,7 +52,7 @@ model cards {
   id              Int     @id @default(autoincrement())
   user            users   @relation(fields: [user_id], references: [id])
   user_id         Int
-  name            String  @unique
+  name            String  
   number          String
   CVC             String
   expiration_date String
@@ -65,7 +65,7 @@ model wifi {
   id       Int    @id @default(autoincrement())
   user     users  @relation(fields: [user_id], references: [id])
   user_id  Int
-  title    String @unique
+  title    String 
   name     String
   password String
 }

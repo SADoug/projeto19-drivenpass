@@ -27,10 +27,10 @@ async function NotesGet(id: number) {
     })
 }
 
-async function NotesGetById(id: number, notesId: number) {
+async function NotesGetById(user_id: number, notesId: number) {
     return client.notes.findMany({
         where: {
-            user_id: id,
+            user_id,
             id: notesId
         }
     })

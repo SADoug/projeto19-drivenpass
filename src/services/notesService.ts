@@ -7,9 +7,8 @@ export type CreateNotes = Omit<notes, "id">;
 
 async function notesInsert(createNote: CreateNotes) {
 
-    const titlecheck = await notesRepository.getUserByIdandTitle(createNote.title, createNote.id)
+    const titlecheck = await notesRepository.getUserByIdandTitle(createNote.title, createNote.userId)
     if (titlecheck[0]) { throw { type: "conflict", message: "title already exists for this user" } }
-
     await notesRepository.insertNotes(
         createNote.description,
         createNote.title,
@@ -18,31 +17,22 @@ async function notesInsert(createNote: CreateNotes) {
 }
 
 async function notesGetService(id: number) {
-    console.log(id)
     let result = await notesRepository.NotesGet(id)
-    console.log(result)
+    if (!result[0]) { throw { type: "not_found", message: "this note does not have connection with this user or does not exist" } }
     return result
 }
 
 async function notesGeByIdService(id: number, notesId: number) {
-    const Cryptr = require('cryptr');
-    const cryptr = new Cryptr(process.env.CRYPT_KEY);
     let result = await notesRepository.NotesGetById(id, notesId)
-    for (let i = 0; i < result.length; i++) {
-        const element = result[i];
-        const descrypPassword = cryptr.decrypt(element.password);
-        console.log("#######", element.password, descrypPassword)
-        result[i].password = descrypPassword
-        console.log("#######", result[i])
-
-    }
+    if (!result[0]) { throw { type: "not_found", message: "this note does not have connection with this user or does not exist" } }
     console.log(result)
     return result
 }
-  
 
-async function notesDeleteService(notesId: number) {
 
+async function notesDeleteService(notesId: number, user_id: number) {
+    let result = await notesRepository.NotesGetById(user_id, notesId)
+    if (!result[0]) { throw { type: "not_found", message: "this note does not have connection with this user or does not exist" } }
     return await notesRepository.NotesDelete(notesId)
 }
 

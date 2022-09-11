@@ -29,10 +29,10 @@ async function CredentialsGet(id: number) {
     })
 }
 
-async function CredentialsGetById(id: number, credentialId: number) {
+async function CredentialsGetById(user_id: number, credentialId: number) {
     return client.credentials.findMany({
         where: {
-            user_id: id,
+            user_id,
             id: credentialId
         }
     })

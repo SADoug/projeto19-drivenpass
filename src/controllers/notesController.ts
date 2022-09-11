@@ -29,11 +29,11 @@ export async function getNotes(req: Request, res: Response) {
 }
 
 export async function getNotesById(req: Request, res: Response) {
-    const id = parseInt(res.locals.userId)
+    const user_id = parseInt(res.locals.userId)
     const noteslId = parseInt(req.params.id)
-    console.log("Esse é o seu user ID", id)
+    console.log("Esse é o seu user ID", user_id)
 
-    const repo = await notesService.notesGeByIdService(id, noteslId);
+    const repo = await notesService.notesGeByIdService(user_id, noteslId);
     res.send(repo).status(201)
 }
 export async function NotesDelete(req: Request, res: Response) {
