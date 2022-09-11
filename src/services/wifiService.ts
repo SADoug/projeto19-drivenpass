@@ -1,33 +1,33 @@
-import credentialsRepository from "../repositories/CredentialsRepository"
-import { credentials } from "@prisma/client";
+import wifiRepository from "../repositories/wifiRepository"
+import { wifi } from "@prisma/client";
 import dotenv from 'dotenv';
 dotenv.config();
 
-export type CreateCredential = Omit<credentials, "id">;
+export type CreateWifi = Omit<wifi, "id">;
 
-async function CredentialInsert(createCredential: CreateCredential) {
+async function WifiInsert(createWifi: CreateWifi) {
 
-    const titlecheck = await credentialsRepository.getUserByIdandTitle(createCredential.title, createCredential.id)
+    const titlecheck = await wifiRepository.getUserByIdandTitle(createWifi.title, createWifi.id)
+    console.log(titlecheck)
     if (titlecheck[0]) { throw { type: "conflict", message: "title already exists for this user" } }
 
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
-    const hashedPassword = cryptr.encrypt(createCredential.password);
+    const hashedPassword = cryptr.encrypt(createWifi.password);
     console.log(hashedPassword)
-    await credentialsRepository.insertCredentials(
-        createCredential.url,
-        createCredential.username,
-        createCredential.title,
+    await wifiRepository.insertWifi(
+        createWifi.name,
+        createWifi.title,
         hashedPassword,
-        createCredential.userId
+        createWifi.userId
     )
 }
 
-async function CredentialGetService(id: number) {
+async function WifiGetService(id: number) {
     console.log(id)
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
-    let result = await credentialsRepository.CredentialsGet(id)
+    let result = await wifiRepository.WifiGet(id)
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
         const descrypPassword = cryptr.decrypt(element.password);
@@ -40,10 +40,10 @@ async function CredentialGetService(id: number) {
     return result
 }
 
-async function CredentialGeByIdService(id: number, credentialId: number) {
+async function WifiGeByIdService(id: number, wifiId: number) {
     const Cryptr = require('cryptr');
     const cryptr = new Cryptr(process.env.CRYPT_KEY);
-    let result = await credentialsRepository.CredentialsGetById(id, credentialId)
+    let result = await wifiRepository.WifiGetById(id, wifiId)
     for (let i = 0; i < result.length; i++) {
         const element = result[i];
         const descrypPassword = cryptr.decrypt(element.password);
@@ -56,16 +56,16 @@ async function CredentialGeByIdService(id: number, credentialId: number) {
     return result
 }
 
-async function CredentialDeleteService(credentialId: number) {
+async function WifiDeleteService(wifiId: number) {
 
-    return await credentialsRepository.CredentialsDelete(credentialId)
+    return await wifiRepository.WifiDelete(wifiId)
 }
 
 const CredentialService = {
-    CredentialInsert,
-    CredentialGetService,
-    CredentialGeByIdService,
-    CredentialDeleteService
+    WifiInsert,
+    WifiGetService,
+    WifiGeByIdService,
+    WifiDeleteService
 }
 
 export default CredentialService

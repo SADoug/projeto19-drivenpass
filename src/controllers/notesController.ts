@@ -41,7 +41,6 @@ export async function NotesDelete(req: Request, res: Response) {
     const notesId = parseInt(req.params.id)
 
     console.log("Esse é o seu ID", id)
-
     const repo = await notesService.notesDeleteService(notesId);
     res.send(repo).status(201)
 }

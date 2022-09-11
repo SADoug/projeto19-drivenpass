@@ -25,9 +25,21 @@ async function notesGetService(id: number) {
 }
 
 async function notesGeByIdService(id: number, notesId: number) {
-    console.log(id)
-    return await notesRepository.NotesGetById(id, notesId)
+    const Cryptr = require('cryptr');
+    const cryptr = new Cryptr(process.env.CRYPT_KEY);
+    let result = await notesRepository.NotesGetById(id, notesId)
+    for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        const descrypPassword = cryptr.decrypt(element.password);
+        console.log("#######", element.password, descrypPassword)
+        result[i].password = descrypPassword
+        console.log("#######", result[i])
+
+    }
+    console.log(result)
+    return result
 }
+  
 
 async function notesDeleteService(notesId: number) {
 

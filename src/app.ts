@@ -7,7 +7,8 @@ import ExceptionHandler from './events/AppError';
 import authRouter from './routes/AuthRouter';
 import credentialsRouter from './routes/credentialsRouter';
 import notesRouter from './routes/notesRouter';
-
+import cardsRouter from './routes/cardsRouter';
+import wifiRouter from './routes/wifiRouter';
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(helmet());
 app.use(authRouter)
 app.use(credentialsRouter)
 app.use(notesRouter)
+app.use(cardsRouter)
+app.use(wifiRouter)
 app.use(errorHandlerMiddleware);
 app.use(ExceptionHandler);
 

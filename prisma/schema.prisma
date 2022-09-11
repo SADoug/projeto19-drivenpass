@@ -19,6 +19,8 @@ model users {
   sessions    sessions?
   credentials credentials[]
   notes       notes[]
+  cards       cards[]
+  wifi        wifi[]
 }
 
 model sessions {
@@ -44,4 +46,26 @@ model notes {
   user_id     Int
   title       String @unique
   description String
+}
+
+model cards {
+  id              Int     @id @default(autoincrement())
+  user            users   @relation(fields: [user_id], references: [id])
+  user_id         Int
+  name            String  @unique
+  number          String
+  CVC             String
+  expiration_date String
+  password        String
+  isVirtual       Boolean
+  type            String
+}
+
+model wifi {
+  id       Int    @id @default(autoincrement())
+  user     users  @relation(fields: [user_id], references: [id])
+  user_id  Int
+  title    String @unique
+  name     String
+  password String
 }
