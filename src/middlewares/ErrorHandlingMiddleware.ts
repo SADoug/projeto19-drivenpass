@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-interface ERRORS {
+interface types {
   unauthorized: number,
   conflict: number,
   not_found: number,
@@ -8,7 +8,7 @@ interface ERRORS {
 }
 
 
-const ERRORS: ERRORS = {
+const ERRORS = {
   unauthorized: 401,
   conflict: 409,
   not_found: 404,
@@ -17,7 +17,7 @@ const ERRORS: ERRORS = {
 
 export default function errorHandlerMiddleware(err: any, res: Response) {
   console.log(err);
-  const type: string = err.type;
+  const type: types = err.type;
   let statusCode: number = ERRORS[type];
   if(!statusCode) statusCode = 500; // any other types
 

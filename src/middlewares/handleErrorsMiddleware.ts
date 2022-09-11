@@ -10,5 +10,5 @@ export default function handleErrorsMiddleware(err: any, res: Response) {
     return res.status(statusCode).send(err.message)
   }
 
-  res.sendStatus(500);
+ return res.sendStatus(500);
 }

@@ -18,18 +18,18 @@ export function errorTypeToStatusCode(type: AppErrorTypes) {
   return 400;
 }
 
-export function conflictError(message?: string): AppError {
+export function conflictError(message: string): AppError {
   return { type: "conflict", message };
 }
 
-export function notFoundError(message?: string): AppError {
+export function notFoundError(message: string): AppError {
   return { type: "not_found", message };
 }
 
-export function unauthorizedError(message?: string): AppError {
+export function unauthorizedError(message: string): AppError {
   return { type: "unauthorized", message };
 }
 
-export function wrongSchemaError(message?: string): AppError {
+export function wrongSchemaError(message: string): AppError {
   return { type: "wrong_schema", message };
 }
